@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,6 @@
   <link rel="stylesheet" href="./assets/lib/layui/css/layui.css">
   <link rel="stylesheet" href="./assets/css/login.css">
 </head>
-
 <body>
   <!-- 左上角的logo -->
   <div class="logo">
@@ -28,25 +26,22 @@
     <form class="layui-form reg-form" action="" style="display: none;">
       <div class="layui-form-item">
         <i class="layui-icon layui-icon-username"></i>
-        <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
       </div>
 
       <div class="layui-form-item">
         <i class="layui-icon layui-icon-password"></i>
-        <input id="pass" type="password" name="password" required lay-verify="required|pass" placeholder="请输入密码"
-          autocomplete="off" class="layui-input">
+        <input id="pass" type="password" name="password" required  lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
       </div>
 
       <div class="layui-form-item">
         <i class="layui-icon layui-icon-password"></i>
-        <input type="password" required lay-verify="required|pass|samePass" placeholder="请再次确认密码" autocomplete="off"
-          class="layui-input">
+        <input type="password" required  lay-verify="required|pass|samePass" placeholder="请再次确认密码" autocomplete="off" class="layui-input">
       </div>
 
       <!-- 注册按钮 -->
       <div class="layui-form-item">
-        <button class="layui-btn layui-btn-fluid layui-btn-normal" lay-submit lay-filter="formDemo">注册</button>
+          <button class="layui-btn layui-btn-fluid layui-btn-normal" lay-submit lay-filter="formDemo">注册</button>
       </div>
 
       <!-- 登录链接 -->
@@ -59,19 +54,17 @@
     <form class="layui-form login-form" action="">
       <div class="layui-form-item">
         <i class="layui-icon layui-icon-username"></i>
-        <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
       </div>
 
       <div class="layui-form-item">
         <i class="layui-icon layui-icon-password"></i>
-        <input type="password" name="password" required lay-verify="required|pass" placeholder="请输入密码"
-          autocomplete="off" class="layui-input">
+        <input type="password" name="password" required  lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
       </div>
 
       <!-- 登录按钮 -->
       <div class="layui-form-item">
-        <button class="layui-btn layui-btn-fluid layui-btn-normal" lay-submit lay-filter="formDemo">登录</button>
+          <button class="layui-btn layui-btn-fluid layui-btn-normal" lay-submit lay-filter="formDemo">登录</button>
       </div>
 
       <!-- 去注册链接 -->
@@ -80,16 +73,16 @@
       </div>
     </form>
   </div>
-  <!-- 引入axios js 文件 -->
+
+  <!-- 引入 axios.js 文件 -->
   <script src="./assets/lib/axios.js"></script>
   <!-- 引入 jquery 文件 -->
   <script src="./assets/lib/jquery.js"></script>
   <!-- 引入 layui 的 js文件 -->
   <script src="./assets/lib/layui/layui.all.js"></script>
-  <!-- 引入 全局common APi文件 -->
+  <!-- 引入 全局的 apijs 文件 -->
   <script src="./assets/js/commonAPI.js"></script>
   <!-- 引入自己的 js 文件 -->
   <script src="./assets/js/login.js"></script>
 </body>
-
 </html>
