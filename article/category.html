@@ -13,112 +13,110 @@
 
 <body>
   <div class="layui-card">
-    <!-- <div class="layui-card-header">卡片面板</div> -->
+    <div class="layui-card-header">
+      文章类别管理
+      <button type="button" class="add-btn layui-btn layui-btn-normal layui-btn-sm">添加类别</button>
+    </div>
     <div class="layui-card-body">
-      <!-- 卡片区域 -->
-      <div class="layui-card">
-        <div class="layui-card-header">
-          <span>文章类别管理</span>
-          <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="btnAddCate">添加类别</button>
-        </div>
-        <div class="layui-card-body">
-          <table class="layui-table">
-            <colgroup>
-              <col />
-              <col />
-              <col width="200" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>分类名称</th>
-                <th>分类别名</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>贤心</td>
-                <td>2016-11-29</td>
-                <td>
-                  <button type="button" class="layui-btn layui-btn-xs">编辑</button>
-                  <button type="button" class="layui-btn layui-btn-danger layui-btn-xs">删除</button>
-                </td>
-              </tr>
-              <tr>
-                <td>许闲心</td>
-                <td>2016-11-28</td>
-                <td>
-                  <button type="button" class="layui-btn layui-btn-xs">编辑</button>
-                  <button type="button" class="layui-btn layui-btn-danger layui-btn-xs">删除</button>
-                </td>
+      <!-- 文章类别表格区域 -->
+      <table class="layui-table">
+        <!-- colgroup 用来控制表格每一列单元格的宽度 -->
+        <colgroup>
+          <col width="40%">
+          <col width="40%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>分类名称</th>
+            <th>分类别名</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
 
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- 表格数据的模板 -->
-  <script type="text/html" id="tpl-table">
-  {{each data}}
-  <tr>
-    <td>{{$value.name}}</td>
-    <td>{{$value.alias}}</td>
-    <td>
-      <button data-id="{{$value.Id}}"type="button" class="layui-btn layui-btn-xs btn-edit">编辑</button>
-      <button type="button" class="layui-btn layui-btn-danger layui-btn-xs">删除</button>
-    </td>
-  </tr>
-  {{/each}}
-</script>
+  <!-- 添加表单容器 -->
+  <div style="display: none;" class="add-form-container">
+    <form class="layui-form add-form" action="">
+      <div class="layui-form-item">
+        <label class="layui-form-label">分类名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="name" required lay-verify="required" placeholder="请输入分类名称" autocomplete="off"
+            class="layui-input">
+        </div>
+      </div>
 
-  <!-- 添加模板 -->
-  <script type="text/html" id="dialog-add">
-  <form class="layui-form" id="form-add">
-    <div class="layui-form-item">
-      <label class="layui-form-label">分类名称</label>
-      <div class="layui-input-block">
-        <input type="text" name="name" required  lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+      <div class="layui-form-item">
+        <label class="layui-form-label">分类别名</label>
+        <div class="layui-input-block">
+          <input type="text" name="alias" required lay-verify="required" placeholder="请输入分类别名" autocomplete="off"
+            class="layui-input">
+        </div>
       </div>
-    </div>
-    <div class="layui-form-item">                                                                                                     
-      <label class="layui-form-label">分类别名</label>
-      <div class="layui-input-block">
-        <input type="text" name="alias" required  lay-verify="required" placeholder="请输入分类别名" autocomplete="off" class="layui-input">
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">确认添加</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
       </div>
-    </div>
-    <div class="layui-form-item">
-      <div class="layui-input-block">
-        <button class="layui-btn" lay-submit lay-filter="formDemo">确认添加</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </form>
+  </div>
+
+  <!-- 编辑表单的容器 -->
+  <div style="display: none;" class="edit-form-container">
+    <form class="layui-form edit-form" action="" lay-filter="edit-form">
+      <div class="layui-form-item">
+        <label class="layui-form-label">分类名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="name" required lay-verify="required" placeholder="请输入分类名称" autocomplete="off"
+            class="layui-input">
+        </div>
       </div>
-    </div>
-  </form>
-</script>
-  <!-- 编辑模板 -->
-  <script type="text/html" id="dialog-edit">
-  <form class="layui-form" id="form-edit" lay-filter="form-edit">
-    <div class="layui-form-item">
-      <label class="layui-form-label">分类名称</label>
-      <div class="layui-input-block">
-        <input type="text" name="name" required  lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">分类别名</label>
+        <div class="layui-input-block">
+          <input type="text" name="alias" required lay-verify="required" placeholder="请输入分类别名" autocomplete="off"
+            class="layui-input">
+        </div>
       </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">分类别名</label>
-      <div class="layui-input-block">
-        <input type="text" name="alias" required  lay-verify="required" placeholder="请输入分类别名" autocomplete="off" class="layui-input">
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="formDemo">确认添加</button>
+          <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+        </div>
       </div>
-    </div>
-    <div class="layui-form-item">
-      <div class="layui-input-block">
-        <button class="layui-btn" lay-submit lay-filter="formDemo">确认修改</button>
-      </div>
-    </div>
-  </form>
-</script>
+      <!-- 自己构造的id隐藏域 -->
+      <input type="hidden" name="Id">
+    </form>
+  </div>
+
+  <!-- 遍历语法 {{each 遍历对象}}... {{/each}} -->
+  <!-- 条件语法 {{if 条件}}... {{/if}} -->
+  <script type="text/html" id="tpl">
+    {{each data}}
+    <tr>
+      <td>{{$value.name}}</td>
+      <td>{{$value.alias}}</td>
+      <td>
+        <!-- 采用自定义属性的方式去绑定 id 到编辑按钮上面 -->
+        <button data-id="{{$value.Id}}" type="button" class="edit-btn layui-btn layui-btn-xs">编辑</button>
+        <button type="button" class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+      </td>
+    </tr>
+    {{/each}}
+  </script>
+
+
+  <!-- 引入模板引擎 -->
+  <script src="../assets/lib/template-web.js"></script>
   <!-- 引入 jquery 文件 -->
   <script src="../assets/lib/jquery.js"></script>
   <!-- 引入 layui 的 js 文件 -->
@@ -127,8 +125,6 @@
   <script src="../assets/lib/axios.js"></script>
   <!-- 引入公共的请求设置文件 -->
   <script src="../assets/js/commonAPI.js"></script>
-
-  <script src="/assets/lib/template-web.js"></script>
   <!-- 引入自己的文件 -->
   <script src="../assets/js/article/category.js"></script>
 </body>

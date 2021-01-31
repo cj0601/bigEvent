@@ -1,84 +1,113 @@
 $(function () {
 
-    getCateList()
-    // 获取数据
-    function getCateList() {
+  const { form } = layui
+  // 定义弹出层的id (索引)编号
+  let index
 
-        axios.get('/my/article/cates').then(res => {
-            console.log(res);
-            if (res.status !== 0) {
-                return layer.msg('获取文章数据失败')
-            }
+  // 1. 从服务器获取文章列表数据, 并渲染到页面 (封装成一个函数)
+  getCateList()
 
-            const htmlStr = template('tpl-table', res)
-            // console.log(htmlStr);
-            $('tbody').html(htmlStr)
-        })
-    }
+  function getCateList() {
+    // 1.1 发送请求
+    axios.get('/my/article/cates').then(res => {
+      console.log(res)
+      // 1.2 判断请求失败
+      if (res.status !== 0) {
+        return layer.msg('获取分类列表失败!')
+      }
 
-    var indexAdd = null
-    // 添加分类的点击事件
-    $('.layui-btn').click(function () {
+      // 1.4 请求成功 TODO
+      // 使用模板引擎渲染页面: 1. 引入插件 2. 准备一个模板 3. 调用一个模板函数 template(id, 数据对象)
+      const htmlStr = template('tpl', res)
+      // console.log(htmlStr)
 
-        // 为添加类别按钮绑定点击事件
-        indexAdd = layer.open({
-            type: 1,
-            area: ['500px', '250px'],
-            title: '添加文章分类',
-            content: $('#dialog-add').html()
-        })
+      // 1.5 把拼接好的 html 字符串渲染到 tbody 表格主体中
+      $('tbody').html(htmlStr)
+    })
+  }
 
+  // 2. 点击添加按钮, 添加一个文章分类
+  $('.add-btn').click(function () {
+    // 2.1 点完之后, 显示一个弹出层
+    index = layer.open({
+      type: 1,
+      // 弹出的标题
+      title: '添加文章分类',
+      // 弹出层的内容
+      content: $('.add-form-container').html(),
+      // 弹出层的宽高
+      area: ['500px', '250px']
+    })
+  })
 
+  // 3. 监听添加表单的提交事件
+  // 坑: 注意这个表单点击之后再去添加的, 后创建的元素绑定事件统一使用 "事件委托"
+  $(document).on('submit', '.add-form', function (e) {
+    e.preventDefault()
+
+    // 3.1 发送请求, 把表单数据提交到服务器
+    axios.post('/my/article/addcates', $(this).serialize()).then(res => {
+      console.log(res)
+      // 3.2 判断失败
+      if (res.status !== 0) {
+        return layer.msg('提交失败!')
+      }
+
+      layer.msg('添加分类成功!')
+
+      // 3.3 成功 TODO, 关闭弹出层, index 为定义弹出层位置的返回值 
+      layer.close(index)
+
+      // 3.4 更新外层分类表格数据, 重新调用方法渲染即可
+      getCateList()
+    })
+  })
+
+  // 4. 点击编辑按钮, 弹出编辑表单
+  $(document).on('click', '.edit-btn', function () {
+    // 4.1  点完之后, 显示一个弹出层
+    index = layer.open({
+      type: 1,
+      // 弹出的标题
+      title: '修改文章分类',
+      // 弹出层的内容
+      content: $('.edit-form-container').html(),
+      // 弹出层的宽高
+      area: ['500px', '250px']
     })
 
-    // 3 监听 添加表单的提交事件
-    // 要使用 事件委托on 方法
-    $(document).on('submit', '.add-form', function (e) {
-        e.preventDefault()
-
-
-        $.ajax({
-            method: 'POST',
-            url: '/my/article/addcates',
-            data: $(this).serialize(),
-            success: function (res) {
-                if (res.status !== 0) {
-                    return layer.msg('新增分类失败！')
-                }
-                getCateList()
-                layer.msg('新增分类成功！')
-                // 根据索引，关闭对应的弹出层（so，打开弹出层时要保存其索引）
-                layer.close(indexAdd)
-            }
-        })
-
-    })
-
-    $(document).on('click', '.form-add', function (e) {
-        indexAdd = layer.open({
-            type: 1,
-            area: ['500px', '250px'],
-            title: '添加文章分类',
-            content: $('#dialog-add').html()
-        })
-    })
-
-    var indexEdit = null
-    $('tbody').on('click', '.btn-edit', function () {
-        // 弹出一个修改文章分类信息的层
-        indexEdit = layer.open({
-            type: 1,
-            area: ['500px', '250px'],
-            title: '修改文章分类',
-            content: $('#dialog-edit').html()
-        })
-    })
-
-
-    console.log($(this).data('id'));
+    // 4.2 获取自定义属性的值
+    console.log($(this).data('id'))
     const id = $(this).data('id')
+
+    // 4.3 发送请求到服务器, 获取当前的分类数据
     axios.get(`/my/article/cates/${id}`).then(res => {
-        console.log(res);
+      console.log(res)
+
+
+      if (res.status !== 0) {
+        return layer.msg('获取失败！')
+      }
+      form.val('edit-form', res.data)
     })
 
+
+    // 监听编辑表单的提交事件
+    $(document).on('submit', '.edit-form', function (e) {
+      e.preventDefault()
+
+      // 5.1 发送请求到服务器 ，提交表单数据
+      axios.post('/my/article/updatecate', $(this).serialize()).then(res => {
+        console.log(res);
+
+        if (res.status !== 0) {
+          return layer.msg('更新失败')
+        }
+        layer.close(index)
+        getCateList()
+
+
+      })
+    })
+  })
 })
